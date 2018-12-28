@@ -21,7 +21,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter   {
 		URL url = new URL(conf.getHostname(), conf.getPort());
 		Class<?> inplClass = MapRegister.get(invocation.getInterfaceName(), url);
 		Method method = inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
-		String result = (String) method.invoke(inplClass.newInstance(), invocation.getParams());
+		Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
 		System.out.println("服务端。。。。。。。。。发送" + result);
 		ctx.channel().writeAndFlush(result);
 	}

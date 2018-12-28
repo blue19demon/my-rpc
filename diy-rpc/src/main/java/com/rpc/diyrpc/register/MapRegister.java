@@ -24,7 +24,7 @@ public class MapRegister {
 		System.out.println(REGISTER.get(interfaceName));
 		URL url=REGISTER.get(interfaceName).keySet().iterator().next();
 		if(url==null) {
-			url=new URL("localhost", 8888);
+			url=new URL("localhost", 7777);
 		}
 		return url;
 	}

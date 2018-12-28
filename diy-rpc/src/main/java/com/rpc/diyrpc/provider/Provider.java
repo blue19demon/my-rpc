@@ -4,7 +4,7 @@ import com.rpc.diyrpc.framework.Configure;
 import com.rpc.diyrpc.framework.ProtocolFactory;
 import com.rpc.diyrpc.framework.RPCConfigure;
 import com.rpc.diyrpc.framework.URL;
-import com.rpc.diyrpc.protocol.http.Protocol;
+import com.rpc.diyrpc.protocol.tomcat.Protocol;
 import com.rpc.diyrpc.provider.api.DemoService;
 import com.rpc.diyrpc.provider.api.HelloService;
 import com.rpc.diyrpc.provider.api.impl.DemoServiceImpl;

@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import com.rpc.diyrpc.protocol.http.Protocol;
+import com.rpc.diyrpc.protocol.tomcat.Protocol;
 
 public class ProxyFactory {
 

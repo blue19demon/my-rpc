@@ -8,6 +8,8 @@ public class Configure {
 	public String getProtocol() {
 		if("http".equals(this.protocol)) {
 			return ProviderProtocol.HTTP;
+		}else if("jetty".equals(this.protocol)) {
+			return ProviderProtocol.JETTY;
 		}
 		return ProviderProtocol.NETTY;
 	}
