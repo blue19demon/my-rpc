@@ -15,7 +15,9 @@ public class RPCConfigure {
 			conf=new Configure(
 					pro.getProperty("rpc.protocol"),
 					pro.getProperty("rpc.host.name"),
-					Integer.parseInt(pro.getProperty("rpc.host.port")));
+					Integer.parseInt(pro.getProperty("rpc.host.port")),
+					pro.getProperty("zookeeper.host.name"),
+					Integer.parseInt(pro.getProperty("zookeeper.host.port")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

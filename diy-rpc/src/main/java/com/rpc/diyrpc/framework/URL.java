@@ -1,6 +1,8 @@
 package com.rpc.diyrpc.framework;
 
-public class URL {
+import java.io.Serializable;
+
+public class URL implements Serializable{
 
 	private String honename;
 	private Integer port;
