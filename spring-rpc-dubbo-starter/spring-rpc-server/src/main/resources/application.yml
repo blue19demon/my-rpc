@@ -1,0 +1,11 @@
+server:
+  port: 80
+rpc:
+  port: 1009
+  #netty或者http、jetty
+  protocol: http
+  remoteClientScan:
+    basePackages: com.rpc.api
+  zookeeper:
+    address: 127.0.0.1
+    port: 2181

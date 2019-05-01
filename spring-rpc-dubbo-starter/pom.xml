@@ -1,0 +1,13 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.rpc</groupId>
+  <artifactId>spring-rpc-dubbo-starter</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>spring-rpc-core-starter</module>
+  	<module>spring-rpc-api</module>
+  	<module>spring-rpc-constomer</module>
+  	<module>spring-rpc-server</module>
+  </modules>
+</project>
