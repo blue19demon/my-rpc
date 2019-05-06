@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.rpc.diyrpc.framework.Invocation;
+import com.rpc.diyrpc.framework.Protocol;
 
 public class HttpProtocol implements Protocol {
 

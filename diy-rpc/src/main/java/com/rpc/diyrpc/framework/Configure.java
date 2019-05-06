@@ -12,6 +12,16 @@ public class Configure {
 			return ProviderProtocol.HTTP;
 		}else if("jetty".equals(this.protocol)) {
 			return ProviderProtocol.JETTY;
+		}else if("socket".equals(this.protocol)) {
+			return ProviderProtocol.SOCKET;
+		}else if("rmi".equals(this.protocol)) {
+			return ProviderProtocol.RMI;
+		}else if("hessian".equals(this.protocol)) {
+			return ProviderProtocol.HESSIAN;
+		}else if("redis".equals(this.protocol)) {
+			return ProviderProtocol.REDIS;
+		}else if("webservice".equals(this.protocol)) {
+			return ProviderProtocol.WEBSERVICE;
 		}
 		return ProviderProtocol.NETTY;
 	}

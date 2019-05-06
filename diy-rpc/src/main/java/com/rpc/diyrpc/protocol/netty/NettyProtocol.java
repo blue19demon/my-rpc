@@ -1,8 +1,8 @@
 package com.rpc.diyrpc.protocol.netty;
 
 import com.rpc.diyrpc.framework.Invocation;
+import com.rpc.diyrpc.framework.Protocol;
 import com.rpc.diyrpc.framework.URL;
-import com.rpc.diyrpc.protocol.tomcat.Protocol;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
