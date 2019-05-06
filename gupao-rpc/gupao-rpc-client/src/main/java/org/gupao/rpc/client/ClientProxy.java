@@ -10,9 +10,11 @@ import org.gupao.rpc.api.RPCRequest;
 
 public class ClientProxy implements InvocationHandler{
 	private int port;
-	public ClientProxy(int port) {
+	private Class<?> interfaceClass;
+	public ClientProxy(int port,Class<?> interfaceClass) {
 		super();
 		this.port = port;
+		this.interfaceClass=interfaceClass;
 	}
 
 	@Override
@@ -26,6 +28,7 @@ public class ClientProxy implements InvocationHandler{
 			RPCRequest reRpcRequest = new RPCRequest();
 			reRpcRequest.setArgs(args);
 			reRpcRequest.setMethodName(method.getName());
+			reRpcRequest.setInterfaceName(interfaceClass.getName());
 			oos.writeObject(reRpcRequest);
 			oos.flush();
 			ois = new ObjectInputStream(socket.getInputStream());

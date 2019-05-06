@@ -7,4 +7,10 @@ public class HelloServiceImpl implements HelloService {
 		return "say hello "+name;
 	}
 
+	@Override
+	public User init(User user) {
+		user.setId(2);
+		return user;
+	}
+
 }

@@ -16,7 +16,8 @@ public class ServerApp
     	RPCServer rpcServer=new RPCServer();
     	UserService UserService=new UserServiceImpl();
     	HelloService HelloService=new HelloServiceImpl();
-    	rpcServer.register(UserService, 8080);
-    	rpcServer.register(HelloService, 8080);
+    	RPCServer.register(UserService);
+    	RPCServer.register(HelloService);
+    	rpcServer.start(8080);
     }
 }
