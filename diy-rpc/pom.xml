@@ -13,7 +13,6 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<cxf.version>2.2.4</cxf.version>
 	</properties>
 
 	<dependencies>
@@ -32,12 +31,10 @@
 			<artifactId>netty-all</artifactId>
 			<version>5.0.0.Alpha1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.aggregate</groupId>
-			<artifactId>jetty-all</artifactId>
-			<version>9.4.6.v20170531</version>
-			<type>pom</type>
-		</dependency>
+		<!-- <dependency> <groupId>org.eclipse.jetty.aggregate</groupId> <artifactId>jetty-all</artifactId> 
+			<version>9.4.6.v20170531</version> <exclusions> <groupId>org.ow2.asm</groupId> 
+			<artifactId>asm</artifactId> <version>5.1</version> </exclusions> <type>pom</type> 
+			</dependency> -->
 		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -55,11 +52,24 @@
 			<artifactId>hessian</artifactId>
 			<version>4.0.38</version>
 		</dependency>
+
+		<!-- jersey server -->
 		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>apache-cxf</artifactId>
-			<version>${cxf.version}</version>
-			<type>pom</type>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+
+			<version>1.18</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-grizzly2</artifactId>
+			<version>1.18</version>
+		</dependency>
+		<!--jersey client-->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.18</version>
 		</dependency>
 	</dependencies>
 

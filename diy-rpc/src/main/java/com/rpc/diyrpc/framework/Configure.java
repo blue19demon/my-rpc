@@ -22,6 +22,8 @@ public class Configure {
 			return ProviderProtocol.REDIS;
 		}else if("webservice".equals(this.protocol)) {
 			return ProviderProtocol.WEBSERVICE;
+		}else if("restful".equals(this.protocol)) {
+			return ProviderProtocol.RESTFUL;
 		}
 		return ProviderProtocol.NETTY;
 	}

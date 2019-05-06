@@ -1,10 +1,9 @@
 package com.rpc.diyrpc.framework;
 
-import java.util.WeakHashMap;
-
 import com.rpc.diyrpc.protocol.hessian.HessianProtocol;
 import com.rpc.diyrpc.protocol.jetty.JettyProtocol;
 import com.rpc.diyrpc.protocol.netty.NettyProtocol;
+import com.rpc.diyrpc.protocol.restful.RestfulProtocol;
 import com.rpc.diyrpc.protocol.rmi.RMIProtocol;
 import com.rpc.diyrpc.protocol.socket.SocketProtocol;
 import com.rpc.diyrpc.protocol.tomcat.HttpProtocol;
@@ -35,6 +34,9 @@ public class ProtocolFactory {
 			break;
 		case ProviderProtocol.WEBSERVICE:
 			protocol = new WebServiceProtocol();
+			break;
+		case ProviderProtocol.RESTFUL:
+			protocol = new RestfulProtocol();
 			break;
 		default:
 			protocol = new HttpProtocol();

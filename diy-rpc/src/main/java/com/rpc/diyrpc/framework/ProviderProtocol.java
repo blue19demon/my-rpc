@@ -9,5 +9,8 @@ public class ProviderProtocol {
 	public static final String RMI="RMI";
 	public static final String HESSIAN="HESSIAN";
 	public static final String REDIS="REDIS";
-	public static final String WEBSERVICE="WEBSERVICE";
+	public static final String RESTFUL="RESTFUL";
+	public static final String THRIFT="THRIFT";
+	public static final String WEBSERVICE = "WEBSERVICE";
+	
 }
