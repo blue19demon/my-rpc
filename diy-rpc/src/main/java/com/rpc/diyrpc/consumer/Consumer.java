@@ -15,6 +15,8 @@ import com.rpc.diyrpc.provider.api.Order;
 import com.rpc.diyrpc.provider.api.OrderService;
 import com.rpc.diyrpc.provider.api.SayHelloService;
 import com.rpc.diyrpc.provider.api.User;
+import com.rpc.diyrpc.provider.rest.api.Department;
+import com.rpc.diyrpc.provider.rest.api.DeptService;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -25,6 +27,28 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 public class Consumer {
 
 	public static void main(String[] args) {
+		DeptService deptService = ProxyFactory.getProxy(DeptService.class);
+
+		List<Department> list = deptService.list();
+		for (Department department : list) {
+			System.out.println(department);
+		}
+
+		System.out.println(deptService.list02("111", "京津冀"));
+
+		System.out.println(deptService.save("京津冀"));
+		System.out.println(deptService.saveMuti(887L, "南京城"));
+		System.out.println(deptService.get(1L, "cc"));//get中文会乱码
+		System.out.println(deptService.update(1L, "看到"));
+		deptService.delete(112L);
+
+		// restfulOld();
+	}
+
+	/**
+	 * redis
+	 */
+	public static void redis() {
 		SayHelloService helloService = ProxyFactory.getProxy(SayHelloService.class);
 		helloService.save("a");
 		String result = helloService.sayHello("小陈博主");
@@ -35,9 +59,13 @@ public class Consumer {
 		for (User user : rs) {
 			System.out.println(user);
 		}
+
 	}
 
-	public static void restful() {
+	/**
+	 * restfulOld
+	 */
+	public static void restfulOld() {
 		try {
 			Configure conf = RPCConfigure.getConfigure();
 			String serverHost = "http://" + conf.getHostname() + ":" + conf.getPort();
@@ -57,15 +85,19 @@ public class Consumer {
 			System.out.println(str);
 
 			resource = client.resource(deptAPI + "/");
-			str = resource.post(ClientResponse.class, queryParams).getEntity(String.class);// 参数列表里加入obj对象
+			str = resource.post(ClientResponse.class, queryParams).getEntity(String.class);//
 			System.out.println(str);
 
 			resource = client.resource(deptAPI + "/33");
-			str = resource.put(ClientResponse.class, queryParams).getEntity(String.class);// 参数列表里加入obj对象
+			str = resource.put(ClientResponse.class, queryParams).getEntity(String.class);//
 			System.out.println(str);
 
 			resource = client.resource(deptAPI + "/33");
 			resource.delete(ClientResponse.class);// 参数列表里加入obj对象
+
+			resource = client.resource(deptAPI + "/33/AA");// 中文乱码
+			str = resource.get(String.class);//
+			System.out.println(str);
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}

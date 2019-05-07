@@ -1,5 +1,5 @@
 
-package com.rpc.diyrpc.provider.rest.api;
+package com.rpc.diyrpc.provider.rest.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +16,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.rpc.diyrpc.provider.rest.api.Department;
+import com.rpc.diyrpc.provider.rest.api.DeptService;
 import com.sun.jersey.spi.resource.Singleton;
 
 @Path("/deptAPI")
 @Singleton
-public class DeptController {
+public class DeptServiceImpl implements DeptService{
 
 	@Path("/listJson")
 	@GET
@@ -29,6 +31,7 @@ public class DeptController {
 	 * 
 	 * @Consumes(MediaType.APPLICATION_JSON)//接收数据消息类型
 	 */
+	@Override
 	public List<Department> list() {
 		List<Department> dept = new ArrayList<>();
 		dept.add(new Department(1L, "dept1"));
@@ -40,6 +43,7 @@ public class DeptController {
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_XML)
+	@Override
 	public List<Department> listXML() {
 		List<Department> dept = new ArrayList<>();
 		dept.add(new Department(1L, "dept1"));
@@ -49,6 +53,7 @@ public class DeptController {
 
 	@Path("/listAll")
 	@GET
+	@Override
 	public List<Department> listAll() {
 		List<Department> dept = new ArrayList<>();
 		dept.add(new Department(1L, "dept1"));
@@ -57,9 +62,10 @@ public class DeptController {
 	}
 
 	@Path("/list")
-	@GET // 1
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_XML)
+	@Override
 	public List<Department> list01() {
 		List<Department> dept = new ArrayList<>();
 		dept.add(new Department(1L, "dept1"));
@@ -68,40 +74,54 @@ public class DeptController {
 	}
 	
 	@Path("/listGet")
-	@GET // 1
+	@GET
+	@Override
 	public Department list02(@QueryParam("id")String id,@QueryParam("name")String name) {
 		return new Department(Long.parseLong(id), name);
 	}
 
 	@GET
-	@Path("{id}")
+	@Path("/{id}/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_XML)
-	public Department get(@PathParam("id") Long id) {
-		return new Department(id, "dept2");
+	@Override
+	public Department get(@PathParam("id")Long id,@PathParam("name")String name) {
+		return new Department(id, name);
 	}
 
-	@POST // 2
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)//返回数据消息类型
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)//接收数据消息类型
+	@Override
 	public Department save(@FormParam("name") String name) {
 		Department d = new Department(1L, name);
 		return d;
 	}
 
-	@PUT // 3
+	@PUT
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Override
 	public Department update(@PathParam("id") Long id, @FormParam("name") String name) {
 		Department d = new Department(id, name);
 		return d;
 	}
 
-	@DELETE // 4
+	@DELETE
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_XML)
+	@Override
 	public void delete(@PathParam("id") Long id) {
 		System.out.println("删除部门：" + id);
+	}
+
+	@POST
+	@Path("/saveMuti")
+	@Produces(MediaType.APPLICATION_JSON)//返回数据消息类型
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)//接收数据消息类型
+	@Override
+	public Department saveMuti(@FormParam("id")Long id,@FormParam("name")String name) {
+		Department d = new Department(id, name);
+		return d;
 	}
 }

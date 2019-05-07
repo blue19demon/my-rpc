@@ -22,9 +22,25 @@ import com.rpc.diyrpc.register.MapRegister;
 public class Provider {
 
 	public static void main(String[] args) {
-		redis();
+		restful();
 	}
 
+	/**
+	 * restful
+	 */
+	public static void restful() {
+		// 注册服务
+		Configure conf = RPCConfigure.getConfigure();
+		URL url = new URL(conf.getHostname(), conf.getPort());
+		MapRegister.restfulResourceScanner("com.rpc.diyrpc.provider.rest.api.impl");
+		// 启动
+		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
+		client.start(url);
+	}
+
+	/**
+	 * redis
+	 */
 	public static void redis() {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
@@ -70,19 +86,6 @@ public class Provider {
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
 		MapRegister.register(Weather.class.getName(), url, WeatherImpl.class);
-		// 启动
-		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
-		client.start(url);
-	}
-
-	/**
-	 * restful
-	 */
-	public static void restful() {
-		// 注册服务
-		Configure conf = RPCConfigure.getConfigure();
-		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.restfulResourceScanner("com.rpc.diyrpc.provider.rest.api");
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
