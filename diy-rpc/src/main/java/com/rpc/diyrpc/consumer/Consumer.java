@@ -30,9 +30,7 @@ public class Consumer {
 		DeptService deptService = ProxyFactory.getProxy(DeptService.class);
 
 		List<Department> list = deptService.list();
-		for (Department department : list) {
-			System.out.println(department);
-		}
+		System.out.println(list);
 
 		System.out.println(deptService.list02("111", "京津冀"));
 

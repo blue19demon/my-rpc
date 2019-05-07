@@ -23,6 +23,7 @@ import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.caucho.hessian.client.HessianProxyFactory;
 import com.rpc.diyrpc.protocol.redis.RedissonClientBuilder;
@@ -144,7 +145,7 @@ public class ProxyFactory {
 												return JSON.parseObject(json, new TypeReference<List<Department>>() {});
 											}
 										}else {
-											return JSON.parseObject(json,Department.class);
+											return JSONObject.parseObject(json, rt);
 										}
 									}
 									return json;
@@ -159,7 +160,7 @@ public class ProxyFactory {
 									String json = response.getEntity(String.class);
 									if (!isBaseType(rt)) {
 										//return JSON.parseObject(json,Department.class); ???
-										return JSON.parseObject(json,Department.class);
+										return JSONObject.parseObject(json, rt);
 									}
 									return json;
 								}
@@ -172,7 +173,7 @@ public class ProxyFactory {
 									String json = response.getEntity(String.class);
 									if (!isBaseType(rt)) {
 										//return JSON.parseObject(json,Department.class); ???
-										return JSON.parseObject(json,Department.class);
+										return JSONObject.parseObject(json, rt);
 									}
 									return json;
 								}
@@ -185,7 +186,7 @@ public class ProxyFactory {
 									String json = response.getEntity(String.class);
 									if (!isBaseType(rt)) {
 										//return JSON.parseObject(json,Department.class); ???
-										return JSON.parseObject(json,Department.class);
+										return JSONObject.parseObject(json, rt);
 									}
 									return json;
 								}
