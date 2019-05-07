@@ -22,6 +22,7 @@ public class MapRegister {
 	private static Map<String, Map<URL, Class>> REGISTER = new HashMap<>();
 	private static ZkClient zk = null;
 	private static Map<String,Object> servletHolderMap=new HashMap<>();
+	public static String resourceScannerPackage=null;
 	static {
 		Configure conf = RPCConfigure.getConfigure();
 		String connection = conf.getZookeeperHostname() + ":" + conf.getZookeeperPort();
@@ -85,5 +86,10 @@ public class MapRegister {
 			url = new URL("localhost", 7777);
 		}
 		return url;
+	}
+
+
+	public static void restfulResourceScanner(String resourceScanner) {
+		resourceScannerPackage=resourceScanner;
 	}
 }

@@ -15,19 +15,15 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 public class NettyServerHandler extends ChannelInboundHandlerAdapter   {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		//System.out.println("服务端。。。。。。。。。收到" + msg);
+		System.out.println("服务端。。。。。。。。。收到" + msg);
 		Invocation invocation = (Invocation) msg;
 		Configure conf=RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
 		Class<?> inplClass = MapRegister.get(invocation.getInterfaceName(), url);
 		Method method = inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
 		Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
-		if(!"void".equals(method.getReturnType().getName())) {
-			ctx.channel().writeAndFlush(result);
-		}else {
-			ctx.channel().close();
-		}
-		
+		System.out.println("服务端。。。。。。。。。发送" + result);
+		ctx.channel().writeAndFlush(result);
 	}
 
 	@Override

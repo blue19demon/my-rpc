@@ -1,7 +1,6 @@
-package com.rpc.diyrpc.provider.api.impl;
+package com.rpc.diyrpc.provider.api;
 
 import com.caucho.hessian.server.HessianServlet;
-import com.rpc.diyrpc.provider.api.HelloService;
 
 public class HelloServiceImpl extends HessianServlet implements HelloService {
 

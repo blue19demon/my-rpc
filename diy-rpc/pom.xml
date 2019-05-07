@@ -31,11 +31,17 @@
 			<artifactId>netty-all</artifactId>
 			<version>5.0.0.Alpha1</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.eclipse.jetty.aggregate</groupId> <artifactId>jetty-all</artifactId> 
-			<version>9.4.6.v20170531</version> <exclusions> <groupId>org.ow2.asm</groupId> 
-			<artifactId>asm</artifactId> <version>5.1</version> </exclusions> <type>pom</type> 
-			</dependency> -->
-		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.4.14.v20181114</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>9.4.12.v20180830</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
@@ -57,7 +63,6 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
-
 			<version>1.18</version>
 		</dependency>
 		<dependency>
@@ -65,11 +70,18 @@
 			<artifactId>jersey-grizzly2</artifactId>
 			<version>1.18</version>
 		</dependency>
-		<!--jersey client-->
+		<!--jersey client -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
 			<version>1.18</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.6</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

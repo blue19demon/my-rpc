@@ -37,7 +37,6 @@ public class JettyDispatchServlet extends HttpServlet {
 			Class<?> inplClass=MapRegister.get(invocation.getInterfaceName(), url);
 			Method method=inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
 			Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
-			System.out.println(result);
 			ObjectOutputStream oos = new ObjectOutputStream(resp.getOutputStream());
 			oos.writeObject(result);
 			oos.flush();

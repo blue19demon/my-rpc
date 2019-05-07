@@ -1,11 +1,8 @@
-package com.rpc.diyrpc.provider.api.impl;
+package com.rpc.diyrpc.provider.api;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.rpc.diyrpc.provider.api.DemoService;
-import com.rpc.diyrpc.provider.api.User;
 
 public class DemoServiceImpl implements DemoService {
 
