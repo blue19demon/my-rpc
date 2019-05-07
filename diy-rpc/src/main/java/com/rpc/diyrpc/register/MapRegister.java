@@ -8,11 +8,18 @@ import java.util.Map;
 import javax.xml.ws.Endpoint;
 
 import org.I0Itec.zkclient.ZkClient;
+import org.redisson.api.RRemoteService;
+import org.redisson.api.RedissonClient;
 
 import com.rpc.diyrpc.framework.Configure;
 import com.rpc.diyrpc.framework.ProviderProtocol;
 import com.rpc.diyrpc.framework.RPCConfigure;
 import com.rpc.diyrpc.framework.URL;
+import com.rpc.diyrpc.protocol.redis.RedissonClientBuilder;
+import com.rpc.diyrpc.provider.api.DemoService;
+import com.rpc.diyrpc.provider.api.DemoServiceImpl;
+import com.rpc.diyrpc.provider.api.SayHelloService;
+import com.rpc.diyrpc.provider.api.SayHelloServiceImpl;
 import com.rpc.diyrpc.provider.api.WeatherImpl;
 
 @SuppressWarnings("rawtypes")
@@ -31,7 +38,12 @@ public class MapRegister {
 
 	public static void register(String interfaceName, URL url, Class implClass) {
 		Configure conf = RPCConfigure.getConfigure();
-		if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
+		if (ProviderProtocol.REDIS.equals(conf.getProtocol())) {
+			RedissonClient redisson = RedissonClientBuilder.build();
+			RRemoteService remoteService = redisson.getRemoteService();
+			remoteService.register(SayHelloService.class, new SayHelloServiceImpl());
+			remoteService.register(DemoService.class, new DemoServiceImpl());
+		}else if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
 			String address="http://localhost/Weather";
 			System.out.println(address);
 	        Endpoint.publish(address,new WeatherImpl());
@@ -54,6 +66,20 @@ public class MapRegister {
 		map.put(url, implClass);
 		REGISTER.put(interfaceName, map);
 		writeToZK(REGISTER);
+	}
+	@SuppressWarnings("unchecked")
+	public static void register(Class interfaceClazz, URL url, Class implClass) {
+		try {
+			RedissonClient redisson = RedissonClientBuilder.build();
+			RRemoteService remoteService = redisson.getRemoteService();
+			remoteService.register(interfaceClazz, implClass.newInstance());
+			Map<URL, Class> map = new HashMap<>();
+			map.put(url, implClass);
+			REGISTER.put(interfaceClazz.getName(), map);
+			writeToZK(REGISTER);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 

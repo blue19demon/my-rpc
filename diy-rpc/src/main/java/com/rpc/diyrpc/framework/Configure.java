@@ -7,6 +7,8 @@ public class Configure {
 	private Integer port;
 	private String zookeeperHostname;
 	private Integer zookeeperPort;
+	private String redisHostname;
+	private Integer redisPort;
 	public String getProtocol() {
 		if("http".equals(this.protocol)) {
 			return ProviderProtocol.HTTP;
@@ -55,21 +57,39 @@ public class Configure {
 	public void setZookeeperPort(Integer zookeeperPort) {
 		this.zookeeperPort = zookeeperPort;
 	}
-	public Configure(String protocol, String hostname, Integer port, String zookeeperHostname, Integer zookeeperPort) {
+	public String getRedisHostname() {
+		return redisHostname;
+	}
+	public void setRedisHostname(String redisHostname) {
+		this.redisHostname = redisHostname;
+	}
+	public Integer getRedisPort() {
+		return redisPort;
+	}
+	public void setRedisPort(Integer redisPort) {
+		this.redisPort = redisPort;
+	}
+	
+	public Configure(String protocol, String hostname, Integer port, String zookeeperHostname, Integer zookeeperPort,
+			String redisHostname, Integer redisPort) {
 		super();
 		this.protocol = protocol;
 		this.hostname = hostname;
 		this.port = port;
 		this.zookeeperHostname = zookeeperHostname;
 		this.zookeeperPort = zookeeperPort;
-	}
-	public Configure() {
-		super();
+		this.redisHostname = redisHostname;
+		this.redisPort = redisPort;
 	}
 	@Override
 	public String toString() {
 		return "Configure [protocol=" + protocol + ", hostname=" + hostname + ", port=" + port + ", zookeeperHostname="
-				+ zookeeperHostname + ", zookeeperPort=" + zookeeperPort + "]";
+				+ zookeeperHostname + ", zookeeperPort=" + zookeeperPort + ", redisHostname=" + redisHostname
+				+ ", redisPort=" + redisPort + "]";
 	}
+	public Configure() {
+		super();
+	}
+	
 	
 }

@@ -3,6 +3,7 @@ package com.rpc.diyrpc.framework;
 import com.rpc.diyrpc.protocol.hessian.HessianProtocol;
 import com.rpc.diyrpc.protocol.jetty.JettyProtocol;
 import com.rpc.diyrpc.protocol.netty.NettyProtocol;
+import com.rpc.diyrpc.protocol.redis.RedisProtocol;
 import com.rpc.diyrpc.protocol.restful.RestfulProtocol;
 import com.rpc.diyrpc.protocol.rmi.RMIProtocol;
 import com.rpc.diyrpc.protocol.socket.SocketProtocol;
@@ -37,6 +38,9 @@ public class ProtocolFactory {
 			break;
 		case ProviderProtocol.RESTFUL:
 			protocol = new RestfulProtocol();
+			break;
+		case ProviderProtocol.REDIS:
+			protocol = new RedisProtocol();
 			break;
 		default:
 			protocol = new HttpProtocol();

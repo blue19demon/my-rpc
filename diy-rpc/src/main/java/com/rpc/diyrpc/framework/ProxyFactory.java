@@ -5,14 +5,23 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.rmi.Naming;
 
+import org.redisson.api.RRemoteService;
+import org.redisson.api.RedissonClient;
+
 import com.caucho.hessian.client.HessianProxyFactory;
+import com.rpc.diyrpc.protocol.redis.RedissonClientBuilder;
 
 public class ProxyFactory {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T getProxy(@SuppressWarnings("rawtypes") Class interfaceClass){
 		Configure conf=RPCConfigure.getConfigure();
-		if (ProviderProtocol.HESSIAN.equals(conf.getProtocol())) {
+		if (ProviderProtocol.REDIS.equals(conf.getProtocol())) {
+			RedissonClient redisson = RedissonClientBuilder.build();
+			RRemoteService remoteService = redisson.getRemoteService();
+			Object target = remoteService.get(interfaceClass);
+			return (T) target;
+		}else if (ProviderProtocol.HESSIAN.equals(conf.getProtocol())) {
 			URL url=new URL(conf.getHostname(), conf.getPort());
 			HessianProxyFactory factory = new HessianProxyFactory();
 			Object target = null;

@@ -3,7 +3,6 @@ package com.rpc.diyrpc.consumer;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.rpc.diyrpc.framework.Configure;
@@ -14,6 +13,7 @@ import com.rpc.diyrpc.provider.api.Hello;
 import com.rpc.diyrpc.provider.api.HelloService;
 import com.rpc.diyrpc.provider.api.Order;
 import com.rpc.diyrpc.provider.api.OrderService;
+import com.rpc.diyrpc.provider.api.SayHelloService;
 import com.rpc.diyrpc.provider.api.User;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -25,42 +25,55 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 public class Consumer {
 
 	public static void main(String[] args) {
-		restful();
+		SayHelloService helloService = ProxyFactory.getProxy(SayHelloService.class);
+		helloService.save("a");
+		String result = helloService.sayHello("小陈博主");
+		System.out.println("远程服务返回结果：" + result);
+
+		DemoService demoService = ProxyFactory.getProxy(DemoService.class);
+		List<User> rs = demoService.findUsers("张");
+		for (User user : rs) {
+			System.out.println(user);
+		}
 	}
 
 	public static void restful() {
 		try {
 			Configure conf = RPCConfigure.getConfigure();
-			String serverHost="http://" + conf.getHostname() + ":" + conf.getPort() ;
-			String deptAPI=serverHost+"/deptAPI";
-			
+			String serverHost = "http://" + conf.getHostname() + ":" + conf.getPort();
+			String deptAPI = serverHost + "/deptAPI";
+
 			ClientConfig cc = new DefaultClientConfig();
 			cc.getProperties().put(ClientConfig.PROPERTY_CONNECT_TIMEOUT, 10 * 1000);
 			Client client = Client.create(cc);
-			//插入参数param1,param2
+			// 插入参数param1,param2
 			MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
-			queryParams.add("id","112");
+			queryParams.add("id", "112");
 			queryParams.add("name", "信息技术部");
-			WebResource resource = client.resource(deptAPI+"/listGet");
-			//返回类型可选的
-			String str = resource.queryParams(queryParams)./* accept(MediaType.APPLICATION_JSON)//默认就是返回xml. */get(String.class);
+			WebResource resource = client.resource(deptAPI + "/listGet");
+			// 返回类型可选的
+			String str = resource.queryParams(queryParams)
+					./* accept(MediaType.APPLICATION_JSON)//默认就是返回xml. */get(String.class);
 			System.out.println(str);
-		
-			resource = client.resource(deptAPI+ "/");
-			str=resource.post(ClientResponse.class,queryParams).getEntity(String.class);//参数列表里加入obj对象
+
+			resource = client.resource(deptAPI + "/");
+			str = resource.post(ClientResponse.class, queryParams).getEntity(String.class);// 参数列表里加入obj对象
 			System.out.println(str);
-			
+
 			resource = client.resource(deptAPI + "/33");
-			str=resource.put(ClientResponse.class,queryParams).getEntity(String.class);//参数列表里加入obj对象
+			str = resource.put(ClientResponse.class, queryParams).getEntity(String.class);// 参数列表里加入obj对象
 			System.out.println(str);
-			
+
 			resource = client.resource(deptAPI + "/33");
-			resource.delete(ClientResponse.class);//参数列表里加入obj对象
+			resource.delete(ClientResponse.class);// 参数列表里加入obj对象
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}
 	}
 
+	/**
+	 * rmi
+	 */
 	public static void rmi() {
 		Hello hello = ProxyFactory.getProxy(Hello.class);
 		try {
