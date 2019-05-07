@@ -3,9 +3,11 @@ package com.rpc.diyrpc.framework;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.rmi.Naming;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -22,13 +24,11 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.caucho.hessian.client.HessianProxyFactory;
 import com.rpc.diyrpc.protocol.redis.RedissonClientBuilder;
 import com.rpc.diyrpc.protocol.restful.RestfulService;
-import com.rpc.diyrpc.provider.rest.api.Department;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -107,7 +107,7 @@ public class ProxyFactory {
 							}
 
 							Parameter[] parameters = method.getParameters();
-							Class<?> rt = method.getReturnType();
+							Class rt = method.getReturnType();
 							MultivaluedMap<String, String> queryParams = null;
 							if (parameters != null && parameters.length > 0 && args.length > 0) {
 								queryParams = new MultivaluedMapImpl();
@@ -140,9 +140,15 @@ public class ProxyFactory {
 										if (rt == java.util.List.class) {
 											// 如果是List类型，得到其Generic的类型
 											Type genericType= method.getGenericReturnType();// 获取返回值类型 
-											if (genericType != null) {
-												//JSON.parseObject(json, new TypeReference<List<?>>() {});???
-												return JSON.parseObject(json, new TypeReference<List<Department>>() {});
+											if (genericType instanceof ParameterizedType) {
+												Type[] typesto = ((ParameterizedType) genericType).getActualTypeArguments();// 强制转型为带参数的泛型类
+												JSONArray jsonArray=JSONArray.parseArray(json);
+												List<Object> os=new ArrayList<>();
+												for (Object object : jsonArray) {
+													String jsonObject=JSONObject.toJSONString(object);
+													os.add(JSONObject.parseObject(jsonObject, typesto[0]));
+												}
+												return  os;
 											}
 										}else {
 											return JSONObject.parseObject(json, rt);
@@ -159,7 +165,6 @@ public class ProxyFactory {
 								if(!rt.equals(void.class)) {
 									String json = response.getEntity(String.class);
 									if (!isBaseType(rt)) {
-										//return JSON.parseObject(json,Department.class); ???
 										return JSONObject.parseObject(json, rt);
 									}
 									return json;
@@ -172,7 +177,6 @@ public class ProxyFactory {
 								if(!rt.equals(void.class)) {
 									String json = response.getEntity(String.class);
 									if (!isBaseType(rt)) {
-										//return JSON.parseObject(json,Department.class); ???
 										return JSONObject.parseObject(json, rt);
 									}
 									return json;
@@ -185,7 +189,6 @@ public class ProxyFactory {
 								if(!rt.equals(void.class)) {
 									String json = response.getEntity(String.class);
 									if (!isBaseType(rt)) {
-										//return JSON.parseObject(json,Department.class); ???
 										return JSONObject.parseObject(json, rt);
 									}
 									return json;
