@@ -20,12 +20,11 @@ import com.rpc.diyrpc.provider.api.DemoService;
 import com.rpc.diyrpc.provider.api.DemoServiceImpl;
 import com.rpc.diyrpc.provider.api.SayHelloService;
 import com.rpc.diyrpc.provider.api.SayHelloServiceImpl;
-import com.rpc.diyrpc.provider.api.WeatherImpl;
 
 @SuppressWarnings("rawtypes")
 public class MapRegister {
 
-	// {服务名：{URL:实现类}}
+	// {鏈嶅姟鍚嶏細{URL:瀹炵幇绫粆}
 	private static Map<String, Map<URL, Class>> REGISTER = new HashMap<>();
 	private static ZkClient zk = null;
 	private static Map<String,Object> servletHolderMap=new HashMap<>();
@@ -44,9 +43,13 @@ public class MapRegister {
 			remoteService.register(SayHelloService.class, new SayHelloServiceImpl());
 			remoteService.register(DemoService.class, new DemoServiceImpl());
 		}else if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
-			String address="http://localhost/Weather";
+			String address="http://"+url.getHonename()+":"+url.getPort()+"/"+interfaceName;
 			System.out.println(address);
-	        Endpoint.publish(address,new WeatherImpl());
+			try {
+				Endpoint.publish(address, implClass.newInstance());
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
 		}else if (ProviderProtocol.HESSIAN.equals(conf.getProtocol())) {
 			try {
 				servletHolderMap.put("/"+interfaceName, implClass.newInstance());
@@ -56,7 +59,7 @@ public class MapRegister {
 		}else if (ProviderProtocol.RMI.equals(conf.getProtocol())) {
 			try {
 				System.out.println("rmi://"+url.getHonename()+":"+url.getPort()+"/"+interfaceName);
-				LocateRegistry.createRegistry(url.getPort());// 加上此程序，就可以不要在控制台上开启RMI的注册程序，1099是RMI服务监视的默认端口
+				LocateRegistry.createRegistry(url.getPort());
 				java.rmi.Naming.rebind("rmi://"+url.getHonename()+":"+url.getPort()+"/"+interfaceName, (Remote) implClass.newInstance());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -89,7 +92,6 @@ public class MapRegister {
 		}
 		zk.createPersistent("/zkConfig", true);
 		zk.writeData("/zkConfig", register);
-		// zk.close();
 	}
 
 	public static Class get(String interfaceName, URL url) {

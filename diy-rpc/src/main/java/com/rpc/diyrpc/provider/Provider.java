@@ -15,8 +15,10 @@ import com.rpc.diyrpc.provider.api.OrderService;
 import com.rpc.diyrpc.provider.api.OrderServiceImpl;
 import com.rpc.diyrpc.provider.api.SayHelloService;
 import com.rpc.diyrpc.provider.api.SayHelloServiceImpl;
-import com.rpc.diyrpc.provider.api.Weather;
-import com.rpc.diyrpc.provider.api.WeatherImpl;
+import com.rpc.diyrpc.provider.webservice.api.PresonService;
+import com.rpc.diyrpc.provider.webservice.api.UserDemoService;
+import com.rpc.diyrpc.provider.webservice.api.impl.PresonServiceImpl;
+import com.rpc.diyrpc.provider.webservice.api.impl.UserDemoServiceImpl;
 import com.rpc.diyrpc.register.MapRegister;
 
 public class Provider {
@@ -24,7 +26,19 @@ public class Provider {
 	public static void main(String[] args) {
 		restful();
 	}
-
+	/**
+	 * webservice
+	 */
+	public static void webservice() {
+		// 注册服务
+		Configure conf = RPCConfigure.getConfigure();
+		URL url = new URL(conf.getHostname(), conf.getPort());
+		MapRegister.register(PresonService.class.getName(), url, PresonServiceImpl.class);
+		MapRegister.register(UserDemoService.class.getName(), url, UserDemoServiceImpl.class);
+		// 启动
+		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
+		client.start(url);
+	}
 	/**
 	 * restful
 	 */
@@ -78,18 +92,6 @@ public class Provider {
 		client.start(url);
 	}
 
-	/**
-	 * webservice
-	 */
-	public static void webservice() {
-		// 注册服务
-		Configure conf = RPCConfigure.getConfigure();
-		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(Weather.class.getName(), url, WeatherImpl.class);
-		// 启动
-		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
-		client.start(url);
-	}
 
 	/**
 	 * netty,http,jetty,socket

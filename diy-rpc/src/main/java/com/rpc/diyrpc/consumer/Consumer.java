@@ -1,12 +1,15 @@
 package com.rpc.diyrpc.consumer;
 
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.rpc.diyrpc.framework.Configure;
-import com.rpc.diyrpc.framework.ProxyFactory;
+import com.rpc.diyrpc.framework.RemoteInterfaceGenarator;
 import com.rpc.diyrpc.framework.RPCConfigure;
 import com.rpc.diyrpc.provider.api.DemoService;
 import com.rpc.diyrpc.provider.api.Hello;
@@ -17,17 +20,49 @@ import com.rpc.diyrpc.provider.api.SayHelloService;
 import com.rpc.diyrpc.provider.api.User;
 import com.rpc.diyrpc.provider.rest.api.Department;
 import com.rpc.diyrpc.provider.rest.api.DeptService;
+import com.rpc.diyrpc.provider.webservice.api.HelloEntity;
+import com.rpc.diyrpc.provider.webservice.api.Preson;
+import com.rpc.diyrpc.provider.webservice.api.Preson.PresonBuilder;
+import com.rpc.diyrpc.provider.webservice.api.PresonService;
+import com.rpc.diyrpc.provider.webservice.api.UserDemoService;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 public class Consumer {
 
 	public static void main(String[] args) {
-		DeptService deptService = ProxyFactory.getProxy(DeptService.class);
+		restful();
+	}
+
+	/**
+	 * webservice
+	 */
+	public static void webservice() {
+		PresonService presonService = RemoteInterfaceGenarator.genarate(PresonService.class);
+		System.out.println(presonService.queryWeather("成都"));
+		PresonBuilder presonBuilder =Preson.builder().age(22).userName("张三丰");
+		presonBuilder.helloEntityList(Arrays.asList(new HelloEntity("hello"),new HelloEntity("word")));
+		presonBuilder.helloEntityMap(new HashMap<String, HelloEntity>(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3818670253379150798L;
+
+			{
+				put("key1", new HelloEntity("hello"));
+				put("key2", new HelloEntity("word"));
+			}
+		});
+		System.out.println(presonService.getPresonInfo(presonBuilder.build()));
+		UserDemoService demoService=RemoteInterfaceGenarator.genarate(UserDemoService.class);
+		System.out.println(demoService.sayHello("你们"));
+	}
+
+	public static void restful() {
+		DeptService deptService = RemoteInterfaceGenarator.genarate(DeptService.class);
 
 		List<Department> list = deptService.list();
 		for (Department department : list) {
@@ -41,20 +76,25 @@ public class Consumer {
 		System.out.println(deptService.get(1L, "cc"));//get中文会乱码
 		System.out.println(deptService.update(1L, "看到"));
 		deptService.delete(112L);
+		
+		com.rpc.diyrpc.provider.rest.api.OrderService orderService = RemoteInterfaceGenarator.genarate(com.rpc.diyrpc.provider.rest.api.OrderService.class);
 
-		// restfulOld();
+		List<com.rpc.diyrpc.provider.rest.api.Order> listOrder = orderService.list(new BigDecimal(99.9));
+		for (com.rpc.diyrpc.provider.rest.api.Order order : listOrder) {
+			System.out.println(order);
+		}
 	}
 
 	/**
 	 * redis
 	 */
 	public static void redis() {
-		SayHelloService helloService = ProxyFactory.getProxy(SayHelloService.class);
+		SayHelloService helloService = RemoteInterfaceGenarator.genarate(SayHelloService.class);
 		helloService.save("a");
 		String result = helloService.sayHello("小陈博主");
 		System.out.println("远程服务返回结果：" + result);
 
-		DemoService demoService = ProxyFactory.getProxy(DemoService.class);
+		DemoService demoService = RemoteInterfaceGenarator.genarate(DemoService.class);
 		List<User> rs = demoService.findUsers("张");
 		for (User user : rs) {
 			System.out.println(user);
@@ -107,7 +147,7 @@ public class Consumer {
 	 * rmi
 	 */
 	public static void rmi() {
-		Hello hello = ProxyFactory.getProxy(Hello.class);
+		Hello hello = RemoteInterfaceGenarator.genarate(Hello.class);
 		try {
 			System.out.println(hello.sayHello("RMI"));
 			System.out.println(hello.save(new User("张三丰", "110")));
@@ -120,13 +160,13 @@ public class Consumer {
 	 * hessian
 	 */
 	public static void hessian() {
-		OrderService OrderService = ProxyFactory.getProxy(OrderService.class);
+		OrderService OrderService = RemoteInterfaceGenarator.genarate(OrderService.class);
 		Order order = new Order();
 		order.setUserName("zz");
 		System.out.println(OrderService.helloWorld("hessian"));
 		System.out.println(OrderService.getMyInfo(order));
 
-		HelloService helloService = ProxyFactory.getProxy(HelloService.class);
+		HelloService helloService = RemoteInterfaceGenarator.genarate(HelloService.class);
 		System.out.println(helloService.sayHello("RPC"));
 		helloService.save();
 	}
@@ -135,12 +175,12 @@ public class Consumer {
 	 * netty,http,jetty,socket
 	 */
 	public static void connonProtocol() {
-		HelloService helloService = ProxyFactory.getProxy(HelloService.class);
+		HelloService helloService = RemoteInterfaceGenarator.genarate(HelloService.class);
 		System.out.println(helloService.sayHello("RPC"));
 
 		helloService.save();
 
-		DemoService demoService = ProxyFactory.getProxy(DemoService.class);
+		DemoService demoService = RemoteInterfaceGenarator.genarate(DemoService.class);
 
 		List<User> rs = demoService.findUsers("张");
 		for (User user : rs) {
