@@ -24,7 +24,7 @@ import com.rpc.diyrpc.register.MapRegister;
 public class Provider {
 
 	public static void main(String[] args) {
-		restful();
+		webservice();
 	}
 	/**
 	 * webservice
@@ -33,8 +33,8 @@ public class Provider {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(PresonService.class.getName(), url, PresonServiceImpl.class);
-		MapRegister.register(UserDemoService.class.getName(), url, UserDemoServiceImpl.class);
+		MapRegister.register(PresonService.class, url, PresonServiceImpl.class);
+		MapRegister.register(UserDemoService.class, url, UserDemoServiceImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
@@ -73,7 +73,7 @@ public class Provider {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(Hello.class.getName(), url, HelloImpl.class);
+		MapRegister.register(Hello.class, url, HelloImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
@@ -85,8 +85,8 @@ public class Provider {
 	public static void hessian() {
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(OrderService.class.getName(), url, OrderServiceImpl.class);
-		MapRegister.register(HelloService.class.getName(), url, HelloServiceImpl.class);
+		MapRegister.register(OrderService.class, url, OrderServiceImpl.class);
+		MapRegister.register(HelloService.class, url, HelloServiceImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
@@ -100,8 +100,8 @@ public class Provider {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(HelloService.class.getName(), url, HelloServiceImpl.class);
-		MapRegister.register(DemoService.class.getName(), url, DemoServiceImpl.class);
+		MapRegister.register(HelloService.class, url, HelloServiceImpl.class);
+		MapRegister.register(DemoService.class, url, DemoServiceImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
