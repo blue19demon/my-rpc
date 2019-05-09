@@ -7,7 +7,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.caucho.hessian.server.HessianServlet;
-import com.rpc.diyrpc.register.MapRegister;
+import com.rpc.diyrpc.register.ZKRegister;
 
 public class HessianServer {
 
@@ -18,7 +18,7 @@ public class HessianServer {
 			ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 			context.setContextPath("/");
 			server.setHandler(context);
-			Map<String, Object> servletHolderMap = MapRegister.getServletHolderMap();
+			Map<String, Object> servletHolderMap = ZKRegister.getServletHolderMap();
 			for (String key : servletHolderMap.keySet()) {
 				context.addServlet(new ServletHolder((HessianServlet) servletHolderMap.get(key)), key);
 			}

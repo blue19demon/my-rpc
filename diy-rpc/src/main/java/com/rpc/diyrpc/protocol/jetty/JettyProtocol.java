@@ -16,7 +16,7 @@ public class JettyProtocol implements Protocol {
 	public void start(com.rpc.diyrpc.framework.URL url) {
 		// 启动
 		JettyServer server = new JettyServer();
-		server.start(url.getHonename(), url.getPort());
+		server.start(url.getHostName(), url.getPort());
 		System.out.println("jetty started");
 	}
 
@@ -24,7 +24,7 @@ public class JettyProtocol implements Protocol {
 	public Object post(com.rpc.diyrpc.framework.URL urlParam, Invocation invocation) {
 		HttpURLConnection connection=null;
 		try {
-			URL url = new URL("http", urlParam.getHonename(), urlParam.getPort(), "/");
+			URL url = new URL("http", urlParam.getHostName(), urlParam.getPort(), "/");
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);

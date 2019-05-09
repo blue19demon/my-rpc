@@ -24,5 +24,6 @@ public class ProviderProtocol {
 	public static final String RESTFUL="RESTFUL";
 	
 	public static final String WEBSERVICE = "WEBSERVICE";
-	
+
+	public static final String MQ = "MQ";
 }

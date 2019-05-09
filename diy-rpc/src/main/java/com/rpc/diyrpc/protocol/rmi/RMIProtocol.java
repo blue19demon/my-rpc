@@ -9,7 +9,7 @@ public class RMIProtocol implements Protocol{
 	@Override
 	public void start(URL url) {
 		RMIServer server = new RMIServer();
-		server.start(url.getHonename(), url.getPort());
+		server.start(url.getHostName(), url.getPort());
 	}
 
 	@Override

@@ -34,7 +34,23 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 public class Consumer {
 
 	public static void main(String[] args) {
-		restful();
+		mq();
+	}
+
+	public static void mq() {
+		com.rpc.diyrpc.provider.mq.api.DemoService demoService = RemoteInterfaceGenarator.genarate(com.rpc.diyrpc.provider.mq.api.DemoService.class);
+		String response = demoService.call("abc");
+		System.out.println(response);
+
+		com.rpc.diyrpc.provider.mq.api.UserService userService = RemoteInterfaceGenarator.genarate(com.rpc.diyrpc.provider.mq.api.UserService.class);
+
+		List<com.rpc.diyrpc.provider.mq.api.User> rs = userService.findUsers("张");
+		for (com.rpc.diyrpc.provider.mq.api.User user : rs) {
+			System.out.println(user);
+		}
+
+		System.out.println(userService.findUserOne("taobao"));
+		userService.save(new com.rpc.diyrpc.provider.mq.api.User("张三丰", "110"));
 	}
 
 	/**

@@ -12,7 +12,7 @@ import com.rpc.diyrpc.framework.Configure;
 import com.rpc.diyrpc.framework.Invocation;
 import com.rpc.diyrpc.framework.RPCConfigure;
 import com.rpc.diyrpc.framework.URL;
-import com.rpc.diyrpc.register.MapRegister;
+import com.rpc.diyrpc.register.ZKRegister;
 public class HttpServerHandler {
 	public void handle(HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -21,7 +21,7 @@ public class HttpServerHandler {
 			Invocation invocation = (com.rpc.diyrpc.framework.Invocation) ois.readObject();
 			Configure conf=RPCConfigure.getConfigure();
 			URL url=new URL(conf.getHostname(), conf.getPort());
-			Class<?> inplClass=MapRegister.get(invocation.getInterfaceName(), url);
+			Class<?> inplClass=ZKRegister.get(invocation.getInterfaceName(), url);
 			Method method=inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
 			Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
 			ObjectOutputStream oos = new ObjectOutputStream(resp.getOutputStream());

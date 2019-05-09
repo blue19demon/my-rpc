@@ -6,7 +6,7 @@ import com.rpc.diyrpc.framework.Configure;
 import com.rpc.diyrpc.framework.Invocation;
 import com.rpc.diyrpc.framework.RPCConfigure;
 import com.rpc.diyrpc.framework.URL;
-import com.rpc.diyrpc.register.MapRegister;
+import com.rpc.diyrpc.register.ZKRegister;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -19,7 +19,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter   {
 		Invocation invocation = (Invocation) msg;
 		Configure conf=RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		Class<?> inplClass = MapRegister.get(invocation.getInterfaceName(), url);
+		Class<?> inplClass = ZKRegister.get(invocation.getInterfaceName(), url);
 		Method method = inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
 		Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
 		System.out.println("服务端。。。。。。。。。发送" + result);

@@ -4,13 +4,17 @@ import java.io.Serializable;
 
 public class URL implements Serializable{
 
-	private String honename;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String hostName;
 	private Integer port;
-	public String getHonename() {
-		return honename;
+	public String getHostName() {
+		return hostName;
 	}
-	public void setHonename(String honename) {
-		this.honename = honename;
+	public void setHostName(String hostName) {
+		this.hostName = hostName;
 	}
 	public Integer getPort() {
 		return port;
@@ -18,9 +22,9 @@ public class URL implements Serializable{
 	public void setPort(Integer port) {
 		this.port = port;
 	}
-	public URL(String honename, Integer port) {
+	public URL(String hostName, Integer port) {
 		super();
-		this.honename = honename;
+		this.hostName = hostName;
 		this.port = port;
 	}
 	public URL() {
@@ -30,7 +34,7 @@ public class URL implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((honename == null) ? 0 : honename.hashCode());
+		result = prime * result + ((hostName == null) ? 0 : hostName.hashCode());
 		result = prime * result + ((port == null) ? 0 : port.hashCode());
 		return result;
 	}
@@ -43,10 +47,10 @@ public class URL implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		URL other = (URL) obj;
-		if (honename == null) {
-			if (other.honename != null)
+		if (hostName == null) {
+			if (other.hostName != null)
 				return false;
-		} else if (!honename.equals(other.honename))
+		} else if (!hostName.equals(other.hostName))
 			return false;
 		if (port == null) {
 			if (other.port != null)

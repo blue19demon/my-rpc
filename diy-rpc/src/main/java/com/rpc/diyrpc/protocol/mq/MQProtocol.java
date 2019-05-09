@@ -1,14 +1,14 @@
-package com.rpc.diyrpc.protocol.restful;
+package com.rpc.diyrpc.protocol.mq;
 
 import com.rpc.diyrpc.framework.Invocation;
 import com.rpc.diyrpc.framework.Protocol;
 
-public class RestfulProtocol implements Protocol {
+public class MQProtocol implements Protocol {
 
 	@Override
 	public void start(com.rpc.diyrpc.framework.URL url) {
 		// 启动
-		RestfulServer server = new RestfulServer();
+		MQServer server = new MQServer();
 		server.start(url.getHostName(), url.getPort());
 	}
 

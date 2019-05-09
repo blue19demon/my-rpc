@@ -11,7 +11,7 @@ import com.rpc.diyrpc.framework.Configure;
 import com.rpc.diyrpc.framework.Invocation;
 import com.rpc.diyrpc.framework.RPCConfigure;
 import com.rpc.diyrpc.framework.URL;
-import com.rpc.diyrpc.register.MapRegister;
+import com.rpc.diyrpc.register.ZKRegister;
 public class SocketServerHandler implements Runnable{
 	
 	private Socket socket;
@@ -51,7 +51,7 @@ public class SocketServerHandler implements Runnable{
 		try {
 			Configure conf=RPCConfigure.getConfigure();
 			URL url=new URL(conf.getHostname(), conf.getPort());
-			Class<?> inplClass=MapRegister.get(invocation.getInterfaceName(), url);
+			Class<?> inplClass=ZKRegister.get(invocation.getInterfaceName(), url);
 			Method method=inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
 			Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
 			return result;

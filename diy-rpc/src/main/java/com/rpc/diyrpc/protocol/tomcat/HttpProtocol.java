@@ -16,13 +16,13 @@ public class HttpProtocol implements Protocol {
 	public void start(com.rpc.diyrpc.framework.URL url) {
 		// 启动
 		HttpServer server = new HttpServer();
-		server.start(url.getHonename(), url.getPort());
+		server.start(url.getHostName(), url.getPort());
 	}
 
 	@Override
 	public Object post(com.rpc.diyrpc.framework.URL urlParam, Invocation invocation) {
 		try {
-			URL url = new URL("http", urlParam.getHonename(), urlParam.getPort(), "/");
+			URL url = new URL("http", urlParam.getHostName(), urlParam.getPort(), "/");
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);

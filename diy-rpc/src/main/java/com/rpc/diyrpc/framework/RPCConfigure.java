@@ -19,7 +19,11 @@ public class RPCConfigure {
 					pro.getProperty("zookeeper.host.name"),
 					Integer.parseInt(pro.getProperty("zookeeper.host.port")),
 					pro.getProperty("redis.host.name"),
-					Integer.parseInt(pro.getProperty("redis.host.port")));
+					Integer.parseInt(pro.getProperty("redis.host.port")),
+					pro.getProperty("mq.rabbit.host.name"),
+					Integer.parseInt(pro.getProperty("mq.rabbit.host.port")),
+					pro.getProperty("mq.rabbit.username"),
+					pro.getProperty("mq.rabbit.password"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

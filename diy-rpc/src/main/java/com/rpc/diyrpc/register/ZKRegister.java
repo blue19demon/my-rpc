@@ -18,7 +18,7 @@ import com.rpc.diyrpc.framework.URL;
 import com.rpc.diyrpc.protocol.redis.RedissonClientBuilder;
 
 @SuppressWarnings("rawtypes")
-public class MapRegister {
+public class ZKRegister {
 
 	private static Map<String, Map<URL, Class>> REGISTER = new HashMap<>();
 	private static ZkClient zk = null;
@@ -47,7 +47,7 @@ public class MapRegister {
 				e.printStackTrace();
 			}
 		}else if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
-			String address="http://"+url.getHonename()+":"+url.getPort()+"/"+interfaceName;
+			String address="http://"+url.getHostName()+":"+url.getPort()+"/"+interfaceName;
 			System.out.println(address);
 			try {
 				Endpoint.publish(address, implClass.newInstance());
@@ -62,9 +62,9 @@ public class MapRegister {
 			}
 		}else if (ProviderProtocol.RMI.equals(conf.getProtocol())) {
 			try {
-				System.out.println("rmi://"+url.getHonename()+":"+url.getPort()+"/"+interfaceName);
+				System.out.println("rmi://"+url.getHostName()+":"+url.getPort()+"/"+interfaceName);
 				LocateRegistry.createRegistry(url.getPort());
-				java.rmi.Naming.rebind("rmi://"+url.getHonename()+":"+url.getPort()+"/"+interfaceName, (Remote) implClass.newInstance());
+				java.rmi.Naming.rebind("rmi://"+url.getHostName()+":"+url.getPort()+"/"+interfaceName, (Remote) implClass.newInstance());
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 

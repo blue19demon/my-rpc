@@ -15,30 +15,36 @@ import com.rpc.diyrpc.provider.api.OrderService;
 import com.rpc.diyrpc.provider.api.OrderServiceImpl;
 import com.rpc.diyrpc.provider.api.SayHelloService;
 import com.rpc.diyrpc.provider.api.SayHelloServiceImpl;
-import com.rpc.diyrpc.provider.webservice.api.PresonService;
-import com.rpc.diyrpc.provider.webservice.api.UserDemoService;
-import com.rpc.diyrpc.provider.webservice.api.impl.PresonServiceImpl;
-import com.rpc.diyrpc.provider.webservice.api.impl.UserDemoServiceImpl;
-import com.rpc.diyrpc.register.MapRegister;
+import com.rpc.diyrpc.register.ZKRegister;
+
 
 public class Provider {
 
 	public static void main(String[] args) {
-		webservice();
+		mq();
 	}
+
 	/**
-	 * webservice
+	 * mq
 	 */
-	public static void webservice() {
+	public static void mq() {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(PresonService.class, url, PresonServiceImpl.class);
-		MapRegister.register(UserDemoService.class, url, UserDemoServiceImpl.class);
+		ZKRegister.register(com.rpc.diyrpc.provider.mq.api.DemoService.class, url, com.rpc.diyrpc.provider.mq.api.DemoServiceImpl.class);
+		ZKRegister.register(com.rpc.diyrpc.provider.mq.api.UserService.class, url, com.rpc.diyrpc.provider.mq.api.UserServiceImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
 	}
+
+	/**
+	 * webservice
+	 */
+	public static void webservice() {
+		mq();
+	}
+
 	/**
 	 * restful
 	 */
@@ -46,7 +52,7 @@ public class Provider {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.restfulResourceScanner("com.rpc.diyrpc.provider.rest.api.impl");
+		ZKRegister.restfulResourceScanner("com.rpc.diyrpc.provider.rest.api.impl");
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
@@ -59,8 +65,8 @@ public class Provider {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(SayHelloService.class, url, SayHelloServiceImpl.class);
-		MapRegister.register(DemoService.class, url, DemoServiceImpl.class);
+		ZKRegister.register(SayHelloService.class, url, SayHelloServiceImpl.class);
+		ZKRegister.register(DemoService.class, url, DemoServiceImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
@@ -73,7 +79,7 @@ public class Provider {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(Hello.class, url, HelloImpl.class);
+		ZKRegister.register(Hello.class, url, HelloImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
@@ -85,13 +91,12 @@ public class Provider {
 	public static void hessian() {
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(OrderService.class, url, OrderServiceImpl.class);
-		MapRegister.register(HelloService.class, url, HelloServiceImpl.class);
+		ZKRegister.register(OrderService.class, url, OrderServiceImpl.class);
+		ZKRegister.register(HelloService.class, url, HelloServiceImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);
 	}
-
 
 	/**
 	 * netty,http,jetty,socket
@@ -100,8 +105,8 @@ public class Provider {
 		// 注册服务
 		Configure conf = RPCConfigure.getConfigure();
 		URL url = new URL(conf.getHostname(), conf.getPort());
-		MapRegister.register(HelloService.class, url, HelloServiceImpl.class);
-		MapRegister.register(DemoService.class, url, DemoServiceImpl.class);
+		ZKRegister.register(HelloService.class, url, HelloServiceImpl.class);
+		ZKRegister.register(DemoService.class, url, DemoServiceImpl.class);
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());
 		client.start(url);

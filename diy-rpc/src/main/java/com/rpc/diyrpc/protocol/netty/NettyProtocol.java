@@ -19,7 +19,7 @@ public class NettyProtocol implements Protocol {
 	 @Override
 	public void start(URL url) {
 		NettyServer server = new NettyServer();
-		server.start(url.getHonename(), url.getPort());
+		server.start(url.getHostName(), url.getPort());
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class NettyProtocol implements Protocol {
                     ch.pipeline().addLast(new NettyClientHandler(invocation));
                 }
             });
-            ChannelFuture channelFuture = bootstrap.connect(url.getHonename(), url.getPort()).sync();
+            ChannelFuture channelFuture = bootstrap.connect(url.getHostName(), url.getPort()).sync();
             channelFuture.channel().closeFuture().sync();
         }catch (Exception e){
             e.printStackTrace();

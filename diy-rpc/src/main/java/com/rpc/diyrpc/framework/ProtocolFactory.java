@@ -2,6 +2,7 @@ package com.rpc.diyrpc.framework;
 
 import com.rpc.diyrpc.protocol.hessian.HessianProtocol;
 import com.rpc.diyrpc.protocol.jetty.JettyProtocol;
+import com.rpc.diyrpc.protocol.mq.MQProtocol;
 import com.rpc.diyrpc.protocol.netty.NettyProtocol;
 import com.rpc.diyrpc.protocol.redis.RedisProtocol;
 import com.rpc.diyrpc.protocol.restful.RestfulProtocol;
@@ -41,6 +42,9 @@ public class ProtocolFactory {
 			break;
 		case ProviderProtocol.REDIS:
 			protocol = new RedisProtocol();
+			break;
+		case ProviderProtocol.MQ:
+			protocol = new MQProtocol();
 			break;
 		default:
 			protocol = new HttpProtocol();

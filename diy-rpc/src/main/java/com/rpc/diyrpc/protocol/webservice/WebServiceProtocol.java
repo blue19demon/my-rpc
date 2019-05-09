@@ -9,7 +9,7 @@ public class WebServiceProtocol implements Protocol{
 	@Override
 	public void start(URL url) {
 		WebServiceServer server = new WebServiceServer();
-		server.start(url.getHonename(), url.getPort());
+		server.start(url.getHostName(), url.getPort());
 	}
 
 	@Override

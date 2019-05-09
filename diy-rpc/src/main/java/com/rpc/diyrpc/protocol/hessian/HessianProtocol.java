@@ -9,7 +9,7 @@ public class HessianProtocol implements Protocol {
 	public void start(com.rpc.diyrpc.framework.URL url) {
 		// 启动
 		HessianServer server = new HessianServer();
-		server.start(url.getHonename(), url.getPort());
+		server.start(url.getHostName(), url.getPort());
 	}
 
 	@Override

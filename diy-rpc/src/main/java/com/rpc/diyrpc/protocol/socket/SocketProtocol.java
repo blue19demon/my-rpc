@@ -14,7 +14,7 @@ public class SocketProtocol implements Protocol{
 	@Override
 	public void start(URL url) {
 		SocketServer server = new SocketServer();
-		server.start(url.getHonename(), url.getPort());
+		server.start(url.getHostName(), url.getPort());
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class SocketProtocol implements Protocol{
 		ObjectInputStream ois = null;
 		Socket socket=null;
 		try {
-			socket=new Socket(url.getHonename(), url.getPort());
+			socket=new Socket(url.getHostName(), url.getPort());
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.writeObject(invocation);
 			oos.flush();
