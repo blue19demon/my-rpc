@@ -5,7 +5,6 @@ import com.rpc.diyrpc.framework.Invocation;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-@SuppressWarnings("deprecation")
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {
 	private Invocation invocation;
 

@@ -2,8 +2,6 @@ package com.rpc.diyrpc.protocol.mq;
 
 import java.lang.reflect.Method;
 
-import org.mortbay.jetty.security.SSORealm;
-
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;

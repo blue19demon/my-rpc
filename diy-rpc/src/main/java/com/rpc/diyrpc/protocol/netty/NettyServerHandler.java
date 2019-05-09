@@ -11,7 +11,6 @@ import com.rpc.diyrpc.register.ZKRegister;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-@SuppressWarnings("deprecation")
 public class NettyServerHandler extends ChannelInboundHandlerAdapter   {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
