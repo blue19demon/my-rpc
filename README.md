@@ -1,5 +1,5 @@
 # my-rpc
-netty,http,jetty,socket,rmi,hessian,redis,webservice,restful,thrift等协议，实现自己的RPC框架
+netty,http,jetty,socket,rmi,hessian,redis,webservice,restful,thrift,mq等协议，实现自己的RPC框架
 
 #### 步骤1. 
 #### server和client添加依赖项
